@@ -1,0 +1,23 @@
+version: 0.2
+phases:
+  build:
+    commands:
+      - aws ecr get-login-password --region eu-west-3 | docker login --username AWS --password-stdin 921302943194.dkr.ecr.eu-west-3.amazonaws.com
+
+      - docker --version
+      - cd docker_files
+
+      - cd web_docker
+      - echo "Web image directory"
+      - ls
+      - docker build -t container_node .
+      - docker tag container_node:latest 921302943194.dkr.ecr.eu-west-3.amazonaws.com/container_node:latest
+      - docker push 921302943194.dkr.ecr.eu-west-3.amazonaws.com/container_node:latest
+
+      - cd ..
+      - cd postgres_docker
+      - echo "Postgres image directory"
+      - ls
+      - docker build -t container_postgresql .
+      - docker tag container_postgresql:latest 921302943194.dkr.ecr.eu-west-3.amazonaws.com/container_postgresql:latest
+      - docker push 921302943194.dkr.ecr.eu-west-3.amazonaws.com/container_postgresql:latest

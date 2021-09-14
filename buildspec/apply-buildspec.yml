@@ -1,0 +1,14 @@
+version: 0.2
+phases:
+  pre_build:
+    commands:
+      - curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add -
+      - apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+      - apt update
+      - apt install terraform
+
+  build:
+    commands:
+      - printf '%s\n' "terraform {" "required_providers {" "aws = {" "source  = \"hashicorp/aws\"" "version = \"~> 3.0\"" "}" "}" "backend \"s3\" {" "bucket = \"state-terraform-my-task\"" "key = \"terraform.tfstate\"" "region = \"eu-west-3\"" "}" "}" "provider \"aws\" { region= \"eu-west-3\" }" > main2.tf
+      - terraform init
+      - terraform apply plan.plan

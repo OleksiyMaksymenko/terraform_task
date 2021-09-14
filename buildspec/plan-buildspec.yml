@@ -1,0 +1,20 @@
+version: 0.2
+phases:
+  pre_build:
+    commands:
+      - curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add -
+      - apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+      - apt update
+      - apt install terraform
+      - apt install bash-completion
+
+  build:
+    commands:
+      - terraform init
+      - terraform plan -out plan.plan > output.txt
+      # Put here path to file
+      - bash send_notification.sh output.txt
+ 
+artifacts:
+  files:
+    - 'plan.plan'
