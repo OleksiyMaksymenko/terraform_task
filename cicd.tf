@@ -74,9 +74,21 @@ resource "aws_codepipeline" "cicd_pipeline" {
                 owner = "AWS" 
                 input_artifacts = ["tf-code"] 
                 configuration = { 
-                    ProjectName = "tf-cicd-plan" 
+                    ProjectName = "tf-cicd-plan2" 
                 } 
             } 
+        } 
+
+        stage {
+            name = "Approve"
+
+            action {
+                name     = "Approval"
+                category = "Approval"
+                owner    = "AWS"
+                provider = "Manual"
+                version  = "1"
+            }
         } 
 
         stage { 

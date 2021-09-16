@@ -50,8 +50,7 @@ resource "aws_ecr_repository" "node_js" {
 resource "aws_iam_role" "tf-codepipeline-role" {
   name = "tf-codepipeline-role"
 
-  assume_role_policy = <<EOF
-  {
+  assume_role_policy = jsonencode({
     "Version": "2012-10-17",
     "Statement": [
       {
@@ -63,9 +62,7 @@ resource "aws_iam_role" "tf-codepipeline-role" {
         "Sid": ""
       }
     ]
-  }
-  EOF
-
+  })
 }
 
 data "aws_iam_policy_document" "tf-cicd-pipeline-policies" { 
@@ -98,8 +95,7 @@ resource "aws_iam_role_policy_attachment" "tf-cicd-pipeline-attachment" {
 resource "aws_iam_role" "tf-codebuild-role" {
   name = "tf-codebuild-role"
 
-  assume_role_policy = <<EOF
-  {
+  assume_role_policy = jsonencode({
     "Version": "2012-10-17",
     "Statement": [
       {
@@ -111,8 +107,7 @@ resource "aws_iam_role" "tf-codebuild-role" {
         "Sid": ""
       }
     ]
-  }
-  EOF
+  })
 
 }
 data "aws_iam_policy_document" "tf-cicd-build-policies" { 

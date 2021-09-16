@@ -1,0 +1,15 @@
+version: '3'
+
+services: 
+  
+  web-service:
+    build: ./web
+    ports: 
+      - 8080:3000
+
+  database:
+    image: postgres
+    ports: 
+      - 5432:5432
+    depends_on: 
+      - web-service
