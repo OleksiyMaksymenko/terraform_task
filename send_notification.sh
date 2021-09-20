@@ -1,5 +1,5 @@
 #!/bin/bash
-
+echo "hello"
 text_for_msg=$1
 
 WORDTOREMOVE="[0m"
