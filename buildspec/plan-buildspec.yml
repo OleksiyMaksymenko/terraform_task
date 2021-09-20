@@ -2,11 +2,15 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - terraform init
-      - terraform validate
+      - curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add -
+      - apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+      - apt update
+      - apt install terraform
+      - apt install bash-completion
 
   build:
     commands:
+      - terraform init
       - terraform plan -out plan.plan
       - bash send_notification.sh
       
