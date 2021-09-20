@@ -4,10 +4,12 @@ phases:
     commands:
       - terraform init
       - terraform validate
-      # - $ curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-      # - unzip awscliv2.zip
-      # - sudo ./aws/install
-  
+
   build:
     commands:
-      - terraform plan -out=FILE
+      - terraform plan -out plan.plan
+      - bash send_notification.sh
+      
+artifacts:
+  files:
+    - 'plan.plan'

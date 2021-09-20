@@ -2,9 +2,20 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - terraform init
-      - terraform validate
-  
+      - curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add -
+      - apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+      - apt update
+      - apt install terraform
+      
+
   build:
     commands:
-      - terraform apply --auto-approve
+      - ls
+      - terraform apply plan.plan
+      - docker --version
+      - cd docker_files
+      - cd web 
+      - aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/v4o1c0c1
+      - docker build -t web_app_for_cicd .
+      - docker tag web_app_for_cicd:latest public.ecr.aws/v4o1c0c1/web_app_for_cicd:latest
+      - docker push public.ecr.aws/v4o1c0c1/web_app_for_cicd:latest
