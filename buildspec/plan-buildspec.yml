@@ -11,8 +11,8 @@ phases:
   build:
     commands:
       - terraform init
-      - terraform plan -out plan.plan
-      - bash send_notification.sh
+      - bash send_notification.sh $(terraform plan -out plan.plan)
+      - ls
       
 artifacts:
   files:
