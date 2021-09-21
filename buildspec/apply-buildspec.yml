@@ -7,16 +7,8 @@ phases:
       - apt update
       - apt install terraform
       
-
   build:
     commands:
-      - ls
+      - printf '%s\n' "terraform {" "required_providers {" "aws = {" "source  = \"hashicorp/aws\"" "version = \"~> 3.0\"" "}" "}" "backend \"s3\" {" "bucket = \"state-terraform-my-task\"" "key = \"terraform.tfstate\"" "region = \"eu-west-3\"" "}" "}" "provider \"aws\" { region= \"eu-west-3\" }" > main2.tf 
       - terraform init
       - terraform apply plan.plan
-      - docker --version
-      - cd docker_files
-      - cd web 
-      - aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/v4o1c0c1
-      - docker build -t web_app_for_cicd .
-      - docker tag web_app_for_cicd:latest public.ecr.aws/v4o1c0c1/web_app_for_cicd:latest
-      - docker push public.ecr.aws/v4o1c0c1/web_app_for_cicd:latest

@@ -11,9 +11,10 @@ phases:
   build:
     commands:
       - terraform init
-      - bash send_notification.sh $(terraform plan -out plan.plan)
-      - ls
-      
+      - terraform plan -out plan.plan > output.txt
+      # Put here path to file
+      - bash send_notification.sh output.txt
+ 
 artifacts:
   files:
     - 'plan.plan'

@@ -1,7 +1,8 @@
 #!/bin/bash
-echo "hello"
-text_for_msg=$1
-
+path=$1
+# echo $path
+text_for_msg=`cat $path`
+# echo $text_for_msg
 WORDTOREMOVE="[0m"
 text_for_msg=$(printf '%s\n' "${text_for_msg//$WORDTOREMOVE/}")
 WORDTOREMOVE="[1m"
@@ -14,7 +15,9 @@ WORDTOREMOVE="[31m"
 text_for_msg=$(printf '%s\n' "${text_for_msg//$WORDTOREMOVE/}")
 WORDTOREMOVE="[90m"
 text_for_msg=$(printf '%s\n' "${text_for_msg//$WORDTOREMOVE/}")
-
-echo text_for_msg
-
+WORDTOREMOVE=""
+text_for_msg=$(printf '%s\n' "${text_for_msg//$WORDTOREMOVE/}")
+WORDTOREMOVE="─"
+text_for_msg=$(printf '%s\n' "${text_for_msg//$WORDTOREMOVE/}")
+# echo $text_for_msg
 aws sns publish --topic-arn arn:aws:sns:eu-west-3:921302943194:proccesses_topic --message "$text_for_msg Terraform is ready to be built. Approve build manualy"

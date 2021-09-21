@@ -38,9 +38,23 @@ resource "aws_codebuild_project" "tf-apply" {
         buildspec = file("buildspec/apply-buildspec.yml") 
     } 
 } 
-    
 
-
+resource "aws_codebuild_project" "tf-docker" {
+    name = "tf-cicd-docker"  
+    service_role  = aws_iam_role.tf-codebuild-role.arn 
+    artifacts { type = "CODEPIPELINE" } 
+    environment { 
+        compute_type = "BUILD_GENERAL1_SMALL" 
+        image = "aws/codebuild/standard:5.0" 
+        privileged_mode = "true"
+        type = "LINUX_CONTAINER" 
+        image_pull_credentials_type = "CODEBUILD" 
+    } 
+    source { 
+        type   = "CODEPIPELINE" 
+        buildspec = file("buildspec/docker-buildspec.yml") 
+    } 
+} 
 
 resource "aws_codepipeline" "cicd_pipeline" { 
         name = "tf-cicd" 
@@ -98,17 +112,31 @@ resource "aws_codepipeline" "cicd_pipeline" {
         } 
 
         stage { 
-            name ="Deploy" 
+            name ="DeployDocker" 
             action { 
-                name = "Deploy" 
+                name = "DeployDocker" 
+                category = "Build" 
+                provider = "CodeBuild" 
+                version = "1" 
+                owner = "AWS"
+                input_artifacts = ["tfcode"] 
+                configuration = { 
+                    ProjectName = "tf-cicd-docker"
+                } 
+            } 
+        } 
+
+        stage { 
+            name ="DeployTerraform" 
+            action { 
+                name = "DeployTerraform" 
                 category = "Build" 
                 provider = "CodeBuild" 
                 version = "1" 
                 owner = "AWS" 
-                input_artifacts = ["tfplan", "tfcode"] 
-                # input_artifacts = ["tfplan"] 
+                input_artifacts = ["tfplan"] 
                 configuration = { 
-                    ProjectName = "tf-cicd-apply" 
+                    ProjectName = "tf-cicd-apply"
                 } 
             } 
         } 

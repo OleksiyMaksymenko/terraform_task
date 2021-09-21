@@ -36,15 +36,15 @@ provider "aws" { region= "eu-west-3" }
 #   cidr_blocks       = ["0.0.0.0/0"] 
 # } 
 
-resource "aws_ecr_repository" "postrge_sql" { 
-  name                 = "container_postgresql" 
-  image_tag_mutability = "MUTABLE" 
-} 
+# resource "aws_ecr_repository" "postrge_sql" { 
+#   name                 = "container_postgresql" 
+#   image_tag_mutability = "MUTABLE" 
+# } 
   
-resource "aws_ecr_repository" "node_js" { 
-  name                 = "container_node" 
-  image_tag_mutability = "MUTABLE" 
-} 
+# resource "aws_ecr_repository" "node_js" { 
+#   name                 = "container_node" 
+#   image_tag_mutability = "MUTABLE" 
+# } 
 
  
 resource "aws_iam_role" "tf-codepipeline-role" {
