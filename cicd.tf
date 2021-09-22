@@ -111,6 +111,21 @@ resource "aws_codepipeline" "cicd_pipeline" {
             }
         } 
 
+         stage { 
+            name ="DeployTerraform" 
+            action { 
+                name = "DeployTerraform" 
+                category = "Build" 
+                provider = "CodeBuild" 
+                version = "1" 
+                owner = "AWS" 
+                input_artifacts = ["tfplan"] 
+                configuration = { 
+                    ProjectName = "tf-cicd-apply"
+                } 
+            } 
+        } 
+
         stage { 
             name ="DeployDocker" 
             action { 
@@ -126,18 +141,5 @@ resource "aws_codepipeline" "cicd_pipeline" {
             } 
         } 
 
-        stage { 
-            name ="DeployTerraform" 
-            action { 
-                name = "DeployTerraform" 
-                category = "Build" 
-                provider = "CodeBuild" 
-                version = "1" 
-                owner = "AWS" 
-                input_artifacts = ["tfplan"] 
-                configuration = { 
-                    ProjectName = "tf-cicd-apply"
-                } 
-            } 
-        } 
+       
 }
