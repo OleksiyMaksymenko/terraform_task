@@ -20,4 +20,4 @@ text_for_msg=$(printf '%s\n' "${text_for_msg//$WORDTOREMOVE/}")
 WORDTOREMOVE="─"
 text_for_msg=$(printf '%s\n' "${text_for_msg//$WORDTOREMOVE/}")
 # echo $text_for_msg
-aws sns publish --topic-arn arn:aws:sns:eu-central-1:596996137623:my-notif --message "$text_for_msg Terraform is ready to be built. Approve build manualy"
+aws sns publish --topic-arn arn:aws:sns:eu-central-1:596996137623:my-notif --message "$text_for_msg Terraform is ready to be built. Approve build manualy" --region eu-central-1
