@@ -45,16 +45,16 @@ resource "aws_internet_gateway" "inet_gateway_b" {
 
 #######################################
 
-# resource "aws_eip" "nat_eip" {
-#   vpc = true
-#   depends_on = [aws_internet_gateway.inet_gateway_b] # this resource will be created after ig is created
-# }
+resource "aws_eip" "nat_eip" {
+  vpc        = true
+  depends_on = [aws_internet_gateway.inet_gateway_b] # this resource will be created after ig is created
+}
 
-# resource "aws_nat_gateway" "nat_gw" {
-#   allocation_id = aws_eip.nat_eip.id
-#   subnet_id = aws_subnet.b_public_a.id
-#   depends_on = [aws_eip.nat_eip]
-# }
+resource "aws_nat_gateway" "nat_gw" {
+  allocation_id = aws_eip.nat_eip.id
+  subnet_id     = aws_subnet.b_public_a.id
+  depends_on    = [aws_eip.nat_eip]
+}
 
 #######################################
 
@@ -64,11 +64,11 @@ resource "aws_route" "public-internet_gateway" {
   gateway_id             = aws_internet_gateway.inet_gateway_b.id
 }
 
-# resource "aws_route" "private-nat_gateway" {
-#   route_table_id = aws_route_table.rt_private.id
-#   destination_cidr_block = "0.0.0.0/0"
-#   nat_gateway_id = aws_nat_gateway.nat_gw.id
-# } 
+resource "aws_route" "private-nat_gateway" {
+  route_table_id         = aws_route_table.rt_private.id
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id         = aws_nat_gateway.nat_gw.id
+}
 
 resource "aws_route_table_association" "public" {
   subnet_id      = aws_subnet.b_public_a.id
@@ -98,18 +98,18 @@ resource "aws_vpc_endpoint" "endpoint_ecr" {
   security_group_ids = [aws_security_group.sg.id]
 }
 
-# resource "aws_vpc_endpoint_route_table_association" "route_table1"{
-#     route_table_id = aws_route_table.rt_b.id
-#     vpc_endpoint_id = aws_vpc_endpoint.endpoint_ecr.id
-# }
+resource "aws_vpc_endpoint_route_table_association" "route_table1" {
+  route_table_id  = aws_route_table.rt_b.id
+  vpc_endpoint_id = aws_vpc_endpoint.endpoint_ecr.id
+}
 
-# resource "aws_vpc_endpoint_route_table_association" "route_table2"{
-#     route_table_id = aws_route_table.rt_public.id
-#     vpc_endpoint_id = aws_vpc_endpoint.endpoint_ecr.id
-# }
+resource "aws_vpc_endpoint_route_table_association" "route_table2" {
+  route_table_id  = aws_route_table.rt_public.id
+  vpc_endpoint_id = aws_vpc_endpoint.endpoint_ecr.id
+}
 
-# resource "aws_vpc_endpoint_route_table_association" "route_table3"{
-#     route_table_id = aws_route_table.rt_private.id
-#     vpc_endpoint_id = aws_vpc_endpoint.endpoint_ecr.id
-# }
+resource "aws_vpc_endpoint_route_table_association" "route_table3" {
+  route_table_id  = aws_route_table.rt_private.id
+  vpc_endpoint_id = aws_vpc_endpoint.endpoint_ecr.id
+}
 

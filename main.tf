@@ -113,7 +113,7 @@ resource "aws_iam_role" "tf-codebuild-role" {
 data "aws_iam_policy_document" "tf-cicd-build-policies" {
   statement {
     sid       = ""
-    actions   = ["logs:*", "s3:*", "codebuild:*", "secretsmanager:*", "iam:*", "ecr:*"]
+    actions   = ["logs:*", "s3:*", "codebuild:*", "secretsmanager:*", "iam:*", "ecr:*", "SNS:Publish"]
     resources = ["*"]
     effect    = "Allow"
   }

@@ -11,13 +11,14 @@ phases:
       - echo "Web image directory"
       - ls
       - docker build -t container_node .
-      - docker tag container_node:latest 921302943194.dkr.ecr.eu-west-3.amazonaws.com/container_node:latest
-      - docker push 921302943194.dkr.ecr.eu-west-3.amazonaws.com/container_node:latest
+
+      - docker tag container_node:latest 596996137623.dkr.ecr.eu-west-3.amazonaws.com/container_node:latest
+      - docker push 596996137623.dkr.ecr.eu-west-3.amazonaws.com/container_node:latest
 
       - cd ..
       - cd postgres_docker
       - echo "Postgres image directory"
       - ls
       - docker build -t container_postgresql .
-      - docker tag container_postgresql:latest 921302943194.dkr.ecr.eu-west-3.amazonaws.com/container_postgresql:latest
-      - docker push 921302943194.dkr.ecr.eu-west-3.amazonaws.com/container_postgresql:latest
+      - docker tag container_postgresql:latest 596996137623.dkr.ecr.eu-west-3.amazonaws.com/container_postgresql:latest
+      - docker push 596996137623.dkr.ecr.eu-west-3.amazonaws.com/container_postgresql:latest
