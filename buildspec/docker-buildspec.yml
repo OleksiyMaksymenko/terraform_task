@@ -2,7 +2,7 @@ version: 0.2
 phases:
   build:
     commands:
-      - aws ecr get-login-password --region eu-west-3 | docker login --username AWS --password-stdin 921302943194.dkr.ecr.eu-west-3.amazonaws.com
+      - aws ecr get-login-password --region eu-west-3 | docker login --username AWS --password-stdin 596996137623.dkr.ecr.eu-west-3.amazonaws.com
 
       - docker --version
       - cd docker_files
